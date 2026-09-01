@@ -18,7 +18,7 @@ client.once("ready", () => {
 client.on("messageCreate", async function (message) {
   if (
     message.content.includes(
-      message.mentions.roles.find((cargo) => cargo.name === "Mod")
+      message.mentions.roles.find((cargo) => cargo.name === "Mod"),
     )
   ) {
     message.react("⚠️");
@@ -34,19 +34,19 @@ client.on("messageCreate", async function (message) {
       content: `*Data de Abertura: ${new Date().toISOString().split("T")[0]} 
       ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}*\n
       Olá, ${message.author.toString()}! 
-        \nRecebemos a sua reclamação e estamos com um time para analisá-la.\n:thumbsup_tone1: :thumbsup_tone1: :thumbsup_tone1: :thumbsup_tone1:
+        \nRecebemos a sua reclamação e estamos com um time para analisá-la.\n
         \n\nMotivo do contato: ${message.content}\n\n
         *Lembrando que este bot está em W.I.P (Work In Progress). Caso tenha algum problema, favor reporta no [Repositório do Bot](https://github.com/Macribeiro/discord-bot)*`,
       allowedMentions: { repliedUser: true },
     });
     console.log(
-      `Created thread: ${message.thread.name} | ${message.thread.id}`
+      `Created thread: ${message.thread.name} | ${message.thread.id}`,
     );
   }
 
-  if (message.content.match(/ajuda/i === "ajuda")) {
+  if (message.content.match(/ajuda/i) && !message.thread) {
     message.channel.send(
-      `*Caso tenha algum problema, favor reporta no [Repositório do Bot](https://github.com/Macribeiro/discord-bot)*`
+      `*Caso tenha algum problema, favor reporta no [Repositório do Bot](https://github.com/Macribeiro/discord-bot)*`,
     );
   }
 });
