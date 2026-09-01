@@ -1,0 +1,23 @@
+1. Criar um Command Handler (Gerenciador de Comandos)
+O que fazer: Crie uma pasta chamada commands.
+Ação: Cada comando baseado em texto (ajuda, sabadaco) deve se tornar um arquivo .js separado dentro dessa pasta (ex: ajuda.js, sabadaco.js).
+Estrutura: Cada arquivo de comando deve exportar um objeto contendo o name (nome do comando) e uma função run(message, args) contendo a lógica que hoje está dentro dos seus blocos if.
+
+2. Criar um Event Handler (Gerenciador de Eventos)
+O que fazer: Crie uma pasta chamada events.
+Ação: Remova os blocos client.on("ready") e client.on("messageCreate") do arquivo principal.
+Estrutura: Crie um arquivo ready.js e um messageCreate.js dentro da pasta events. 
+O arquivo principal (bot.js) passará apenas a ler essa pasta e registrar os eventos dinamicamente no client.
+
+3. Isolar as Regras de Negócio e Utilidades (Utils/Services)
+O que fazer: Crie uma pasta chamada utils ou services.
+Ação para o Sistema de Mod: Pegue toda a lógica que cria threads, gera números aleatórios, calcula datas e envia logs de reclamação de Moderadores e coloque em um arquivo separado (ex: services/complaintService.js).
+Ação para a Validação de Data: A validação ESabado e a lógica de formatação de horários podem ser movidas para um arquivo utilitário de datas (ex: utils/dateHelper.js).
+
+4. Criar um Módulo de Áudio Centralizado (Audio Player Manager)O que fazer: Crie um arquivo focado em gerenciamento de voz (ex: services/audioService.js).
+Ação: Centralize a lógica de criação do createAudioPlayer, configuração do AudioPlayerStatus.Idle, controle de erros do player e ajuste de volume fixo. 
+O comando sabadaco.js apenas chamará esse serviço passando a conexão e o caminho do arquivo por parâmetro.
+
+5. Deixar o bot.js apenas como Ponto de Entrada (Bootstrapper)
+O que fazer: O seu arquivo principal deve ser limpo drasticamente.
+Ação: Ele deve fazer apenas três coisas: inicializar a classe Client, carregar os gerenciadores de eventos/comandos através de loops de leitura de arquivos (usando o módulo nativo fs do Node) e executar o client.login().
