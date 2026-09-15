@@ -19,7 +19,7 @@ const client = new Client({
   ],
 });
 
-const ESabado = new Date().getDay() === 2;
+const ESabado = new Date().getDay() === 6;
 
 client.once("ready", () => {
   console.log(`${client.user.tag}`);
@@ -86,38 +86,38 @@ client.on("messageCreate", async function (message) {
       });
 
       const player = createAudioPlayer();
-      const resource = createAudioResource("./kasino_no_sabadaco.mp3", {
-        inlineVolume: true,
-      });
 
-      resource.volume.setVolume(0.01);
+      connection.subscribe(player);
 
-      player.on(AudioPlayerStatus.Idle, () => {
-        console.log("Áudio finalizado. Desconectando do canal de voz...");
-
-        connection.destroy();
-      });
+      const createResource = () => {
+        const res = createAudioResource("./kasino_no_sabadaco.mp3", {
+          inlineVolume: true,
+        });
+        res.volume.setVolume(1.0);
+        return res;
+      };
 
       player.on("error", (error) => {
         console.error(`[Erro no Player]: ${error.message}`);
         connection.destroy();
       });
 
-      if (ESabado) {
-        connection.subscribe(player);
-        player.play(resource);
+      player.on(AudioPlayerStatus.Idle, () => {
+        player.play(createResource());
+      });
 
-        message.channel.send("𝘈𝘷𝘪𝘴𝘰: 𝘢𝘣𝘢𝘪𝘹𝘦 𝘰 𝘷𝘰𝘭𝘶𝘮𝘦 𝘥𝘰 𝘣𝘰𝘵");
+      player.play(createResource());
 
-        message.channel.send("🎵 **VAI KASINÃO!** 🎵");
-      } else {
-        message.channel.send(
-          "NUM É SÁBADO AINDA, ANIMAL. ESPERA CHEGAR O DIA PRA TOCAR",
-        );
-      }
+      message.channel.send("𝘈𝘷𝘪𝘴𝘰: 𝘢𝘣𝘢𝘪𝘹𝘦 𝘰 𝘷𝘰𝘭𝘶𝘮𝘦 𝘥𝘰 𝘣𝘰𝘵");
+      message.channel.send("🎵 **VAI KASINÃO!** 🎵");
     } catch (error) {
       console.error("Erro ao conectar no canal de voz:", error);
     }
+  } else if (
+    mensagemNormalizada === "parar" ||
+    mensagemNormalizada === "para sa porra de música"
+  ) {
+    session.player.stop();
   }
 });
 
