@@ -21,3 +21,5 @@ O comando sabadaco.js apenas chamará esse serviço passando a conexão e o cami
 5. Deixar o bot.js apenas como Ponto de Entrada (Bootstrapper)
 O que fazer: O seu arquivo principal deve ser limpo drasticamente.
 Ação: Ele deve fazer apenas três coisas: inicializar a classe Client, carregar os gerenciadores de eventos/comandos através de loops de leitura de arquivos (usando o módulo nativo fs do Node) e executar o client.login().
+
+
